@@ -208,14 +208,15 @@
                         <RowDefinition Height="5"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Название" HorizontalAlignment="Left" Margin="5,45,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TypeNameOfLoot" Grid.Row="0" Height="23" Margin="73,48,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-                    <Label Grid.Row="0" Content="Описание" HorizontalAlignment="Left" Margin="5,76,0,0" VerticalAlignment="Top" Width="68"/>
-                    <Label Grid.Row="0" Content="Для " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <ComboBox x:Name="PersonOwner" Grid.Row="0" HorizontalAlignment="Left" Margin="53,10,0,0" VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="AddNewTypeOfLoot" Grid.Row="0" Content="Добавить объект" Margin="0,10,96,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="105" FontSize="10"/>
-                    <Button x:Name="DeleteTypeOfLoot" Grid.Row="0" Content="Убрать объект" Margin="0,10,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,0.85" HorizontalAlignment="Right" Width="81" FontSize="10"/>
-                    <TextBox x:Name="TypeDescriptionOfLoot" Grid.Row="0" Margin="73,76,10,0" TextWrapping="Wrap" Text="TextBox"/>
+                    <Label Grid.Row="0" Content="Название" HorizontalAlignment="Left" Margin="5,64,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TypeNameOfLoot" Grid.Row="0" Height="23" Margin="73,64,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" TextChanged="TypeNameOfLoot_TextChanged"/>
+                    <Label Grid.Row="0" Content="Описание" HorizontalAlignment="Left" Margin="5,88,0,0" VerticalAlignment="Top" Width="68"/>
+                    <Label Grid.Row="0" Content="Перс." HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="PersonOwner" Grid.Row="0" HorizontalAlignment="Left" Margin="54,10,0,0" VerticalAlignment="Top" Width="120"/>
+                    <ComboBox x:Name="LootType" Grid.Row="0" HorizontalAlignment="Left" Margin="54,37,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="LootType_SelectionChanged"/>
+                    <Button x:Name="AddNewTypeOfLoot" Grid.Row="0" Content="Добавить объект" Margin="0,10,96,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="105" FontSize="10" Click="AddNewTypeOfLoot_Click"/>
+                    <Button x:Name="DeleteTypeOfLoot" Grid.Row="0" Content="Убрать объект" Margin="0,10,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,0.85" HorizontalAlignment="Right" Width="81" FontSize="10" Click="DeleteTypeOfLoot_Click"/>
+                    <TextBox x:Name="TypeDescriptionOfLoot" Grid.Row="0" Margin="73,92,10,0" TextWrapping="Wrap" Text="TextBox" TextChanged="TypeDescriptionOfLoot_TextChanged"/>
 
                     <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
 
@@ -225,6 +226,7 @@
                     <Button x:Name="OwnThisLoot" Content="владей" HorizontalAlignment="Left" Margin="-5,0,0,51" VerticalAlignment="Bottom" Width="73" FontSize="10"/>
                     <Button x:Name="LooseThisLoot" Content="теряй" HorizontalAlignment="Left" Margin="-5,0,0,29" VerticalAlignment="Bottom" Width="73" FontSize="10"/>
                     <Button x:Name="DeleteThisLoot" Content="Убрать" HorizontalAlignment="Left" Margin="-5,0,0,7" VerticalAlignment="Bottom" Width="73" FontSize="10"/>
+                    <Label Grid.Row="0" Content="Вещь" HorizontalAlignment="Left" Margin="5,33,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem Header="+/- Одежда">

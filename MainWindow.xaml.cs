@@ -17,14 +17,7 @@ using System.Windows.Controls.Primitives;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-/*
-        _______________________
-       /\                      \
-       \_|        Сасай        |
-         |        писос        |
-         |   __________________|__
-          \_/____________________/ 
- */
+
 
 
 
@@ -262,20 +255,48 @@ namespace eventEditor
 
 		//-----------Настройка события "Атака"-------------
 		private bool slider = false;
-		private void ChangeComboBoxAndDictionaryContent (ref Dictionary<String,String> dDescr, ref ComboBox type, String name)
+		private void ChangeComboBoxAndDictionaryContent (ref Dictionary<string, string> dDescr, ref ComboBox type, string name)
 		{
-			String description = dDescr[type.Text];
-			dDescr.Remove (type.Text);
-			dDescr.Add (name, description);
-			int i = 0;
-			foreach (String it in type.Items)
+			if (type!=null && dDescr!=null)
 			{
-				if (it == type.Text) { break; }
+				if (dDescr.Keys.Contains (type.Text))
+				{
+					string description = dDescr[type.Text];
+					dDescr.Remove (type.Text);
+					dDescr.Add (name, description);
+					int i = 0;
+					foreach (string it in type.Items)
+					{
+						if (it == type.Text) { break; }
+						++i;
+					}
+					type.Items.RemoveAt (i);
+					type.Items.Add (name);
+					type.Text = name;
+				}
+			}
+		}
+		private void AddNewType (ref Dictionary<string, string> dDescr, ref ComboBox type)
+		{
+			string prevName = type.Text;
+			List<string> container = new List<string> ();
+			foreach (string it in type.Items) { container.Add (it); }
+			string name = type.Text + container.Count (p => p == prevName).ToString ();
+			type.Items.Add (name);
+			type.Text = name;
+			attackDescription.Add (name, DescriptionOfAttackOrReactionType.Text);
+		}
+		private void DeleteType (ref Dictionary<string, string> dDescr, ref ComboBox type)
+		{
+			string name = type.Text;
+			dDescr.Remove (name);
+			int i = 0;
+			foreach (string it in type.Items)
+			{
+				if (it == name) { break; }
 				++i;
 			}
 			type.Items.RemoveAt (i);
-			type.Items.Add (name);
-			type.Text = name;
 		}
 		private void AtackType_SelectionChanged (object sender, SelectionChangedEventArgs e)
 		{
@@ -353,52 +374,22 @@ namespace eventEditor
 		{
 			if (EditTypeOfAttack.IsChecked == true)
 			{
-				// добавляем новый тип атаки
-				List<String> container = new List<String> ();
-				foreach (String it in AttackType.Items) container.Add (it);
-				String name = AttackType.Text + container.Count (p => p == AttackType.Text).ToString ();
-				AttackType.Items.Add (name);
-				AttackType.Text = name;
-				attackDescription.Add (name, DescriptionOfAttackOrReactionType.Text);
+				AddNewType (ref attackDescription, ref AttackType);
 			}
 			else
 			{
-				// добавляем новый тип реакции
-				List<String> container = new List<String> ();
-				foreach (String it in ReactionType.Items) container.Add (it);
-				String name = ReactionType.Text + container.Count (p => p == ReactionType.Text).ToString ();
-				ReactionType.Items.Add (name);
-				ReactionType.Text = name;
-				reactionDescription.Add (name, DescriptionOfAttackOrReactionType.Text);
+				AddNewType (ref reactionDescription, ref ReactionType);
 			}
 		}
 		private void DeleteThisTypeOfAttackOrReaction_Click (object sender, RoutedEventArgs e)
 		{
 			if (EditTypeOfAttack.IsChecked == true && AttackType.Items.Count > 1)
 			{
-				// удаление типа атаки
-				String name = AttackType.Text;
-				attackDescription.Remove (name);
-				int i = 0;
-				foreach (String it in AttackType.Items)
-				{
-					if (it == name) { break; }
-					++i;
-				}
-				AttackType.Items.RemoveAt (i);
+				DeleteType (ref attackDescription, ref AttackType);
 			}
 			else if (ReactionType.Items.Count > 1)
 			{
-				// удаление типа реакции
-				String name = ReactionType.Text;
-				reactionDescription.Remove (name);
-				int i = 0;
-				foreach (String it in ReactionType.Items)
-				{
-					if (it == name) { break; }
-					++i;
-				}
-				ReactionType.Items.RemoveAt (i);
+				DeleteType (ref reactionDescription, ref ReactionType);
 			}
 		}
 		private void DescriptionOfAttackOrReactionType_TextChanged (object sender, TextChangedEventArgs e)
@@ -411,6 +402,32 @@ namespace eventEditor
 			{
 				reactionDescription[ReactionType.Text] = DescriptionOfAttackOrReactionType.Text;
 			}
+		}
+
+		//-----------Настройка события "+/-Вещи"-------------
+		private void LootType_SelectionChanged (object sender, SelectionChangedEventArgs e)
+		{
+			if (lootDescription.Keys.Contains (LootType.Text))
+			{
+				TypeNameOfLoot.Text = LootType.Text;
+				TypeDescriptionOfLoot.Text = lootDescription[LootType.Text];
+			}
+		}
+		private void TypeNameOfLoot_TextChanged (object sender, TextChangedEventArgs e)
+		{
+			ChangeComboBoxAndDictionaryContent (ref lootDescription, ref LootType, TypeNameOfLoot.Text);
+		}
+		private void TypeDescriptionOfLoot_TextChanged (object sender, TextChangedEventArgs e)
+		{
+			lootDescription[LootType.Text] = TypeDescriptionOfLoot.Text;
+		}
+		private void AddNewTypeOfLoot_Click (object sender, RoutedEventArgs e)
+		{
+			AddNewType (ref lootDescription, ref LootType);
+		}
+		private void DeleteTypeOfLoot_Click (object sender, RoutedEventArgs e)
+		{
+			DeleteType (ref lootDescription, ref LootType);
 		}
 
 		//---------------------------------------------------------------------------
